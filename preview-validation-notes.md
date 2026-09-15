@@ -15,3 +15,7 @@ A Chromium headless screenshot at **390 × 844 pixels** confirmed that the revis
 ## Source link check
 
 The official vendor and data-reference links displayed in the revised website returned HTTP 200 during validation: CivicServe, Ginkgo, District360, REDI CRE MCP, and LocationOne / LOIS. The proposal content presents these platforms as discovery candidates or references only; it does not assert a complete King Drive fit, pricing, integration rights, or public-data permission.
+
+## LocationOne reference check
+
+The supplied LocationOne screenshot renders in the vendor and data section with its required attribution and data-rights context. The inline control opened a labeled, accessible enlarged-view modal containing the full screenshot and a visible close button.
