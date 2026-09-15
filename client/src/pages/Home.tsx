@@ -93,6 +93,7 @@ export default function Home() {
           <nav className="hidden items-center gap-5 text-xs font-semibold text-muted-foreground md:flex">
             <button onClick={() => scrollTo("strategy")} className="transition-colors hover:text-foreground">The strategy</button>
             <button onClick={() => scrollTo("opportunities")} className="transition-colors hover:text-foreground">Available spaces</button>
+            <button onClick={() => scrollTo("product")} className="transition-colors hover:text-foreground">What we build</button>
             <button onClick={() => scrollTo("execution")} className="transition-colors hover:text-foreground">Q1 2027 plan</button>
             <button onClick={() => scrollTo("data") } className="transition-colors hover:text-foreground">Data approach</button>
           </nav>
@@ -354,6 +355,106 @@ export default function Home() {
                 <div className="border-t border-border pt-3 text-xs text-foreground"><strong>Deliverable:</strong> Board-ready launch packet and first outreach pipeline.</div>
               </CardContent>
             </Card>
+          </div>
+        </section>
+
+        {/* PRODUCT FEATURES */}
+        <section id="product" className="border-y border-border/70 bg-secondary/55 py-16 sm:py-20">
+          <div className="container mx-auto">
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-7">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">What the BID needs to build</p>
+                <h2 className="mt-3 font-serif-title text-4xl font-semibold leading-tight">A simple product with the right tools behind it.</h2>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  The public experience should stay simple: a clear filter for food-and-beverage opportunities. Behind that filter, the BID needs a secure staff workspace that keeps information current, coordinates outreach, and shows whether the strategy is working.
+                </p>
+              </div>
+              <div className="lg:col-span-5">
+                <div className="rounded-xl border border-accent/30 bg-accent/10 p-4 text-sm leading-relaxed text-foreground">
+                  <strong>Build in two layers:</strong> an approved, operator-friendly opportunity finder on the outside and a private BID operating workspace on the inside. The private workspace is where owner contacts, field notes, confidential business support, and Board disclosures live.
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {[
+                {
+                  number: "01",
+                  icon: MapPin,
+                  title: "King Drive property inventory",
+                  audience: "BID staff first; approved public view later",
+                  description: "One record for every parcel, building, and storefront. Staff can see the address, size, vacancy status, photos, prior use, and when the information was last checked.",
+                  q1: "Q1 output: first verified corridor snapshot",
+                },
+                {
+                  number: "02",
+                  icon: Filter,
+                  title: "Food & beverage opportunity filter",
+                  audience: "Prospective operators, brokers, and owners",
+                  description: "A plain-language filter that separates spaces that are ready now, spaces that need kitchen investment, and future spaces that need early tenant outreach.",
+                  q1: "Q1 output: approved operator-facing opportunity finder",
+                },
+                {
+                  number: "03",
+                  icon: ClipboardCheck,
+                  title: "Mobile field survey",
+                  audience: "BID staff and student practicum teams",
+                  description: "A phone-friendly checklist for photos, vacancy, kitchen equipment, hood and ventilation, seating, storefront condition, accessibility, and visible constraints.",
+                  q1: "Q1 output: consistent way to update each property",
+                },
+                {
+                  number: "04",
+                  icon: Handshake,
+                  title: "Owner & operator follow-up tracker",
+                  audience: "BID program manager and partners",
+                  description: "A simple record of who owns each priority space, what they are willing to do, which operators need support, and the next conversation or deadline.",
+                  q1: "Q1 output: weekly priority outreach list",
+                },
+                {
+                  number: "05",
+                  icon: FileCheck2,
+                  title: "Approved deal sheets",
+                  audience: "Operators, brokers, and recruitment partners",
+                  description: "A clean one-page summary for a verified space: photos, square footage, kitchen status, permitted use, incentives, and the right BID contact. Private notes never appear here.",
+                  q1: "Q1 output: first 5–10 recruitment-ready sheets",
+                },
+                {
+                  number: "06",
+                  icon: TrendingUp,
+                  title: "Strategy scorecard",
+                  audience: "Board, funders, and BID leadership",
+                  description: "A short dashboard showing vacancy, active F&B businesses, businesses retained, spaces activated, operator graduations, and the destination-restaurant milestone.",
+                  q1: "Q1 output: agreed baseline and reporting definitions",
+                },
+              ].map((feature) => (
+                <Card key={feature.number} className="border-border/80 bg-card shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/45 hover:shadow-md">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-bold text-accent">{feature.number}</span>
+                      <feature.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <CardTitle className="mt-2 text-lg">{feature.title}</CardTitle>
+                    <CardDescription className="text-xs font-medium text-muted-foreground">For: {feature.audience}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
+                    <p>{feature.description}</p>
+                    <div className="border-t border-border/60 pt-3 text-xs font-semibold text-foreground">{feature.q1}</div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="mt-8 grid gap-4 rounded-xl border border-border/80 bg-card p-5 sm:grid-cols-3 sm:p-6">
+              <div className="sm:col-span-1">
+                <h3 className="font-serif-title text-2xl font-semibold">Build later, after the basics work.</h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">These additions matter, but they should not delay the first verified inventory and opportunity finder.</p>
+              </div>
+              <div className="sm:col-span-2 grid gap-3 text-sm sm:grid-cols-3">
+                <div className="rounded-lg bg-secondary p-3"><strong className="block text-foreground">Operator support cases</strong><span className="mt-1 block text-xs text-muted-foreground">Confidential retention plans, operations coaching, and stabilization-capital workflow.</span></div>
+                <div className="rounded-lg bg-secondary p-3"><strong className="block text-foreground">Mentor–protégé matching</strong><span className="mt-1 block text-xs text-muted-foreground">Match proven operators with emerging talent before a lease is signed.</span></div>
+                <div className="rounded-lg bg-secondary p-3"><strong className="block text-foreground">Food truck & pop-up manager</strong><span className="mt-1 block text-xs text-muted-foreground">Manage vendors, candidate sites, activation calendars, and storefront graduation.</span></div>
+              </div>
+            </div>
           </div>
         </section>
 
