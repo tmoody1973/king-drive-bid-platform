@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CORRIDOR_METRICS, INVENTORY_DATA, PropertyInventoryItem } from "../mockData";
+import { BUILD_BOUNDARIES, PRODUCT_WORKSTREAMS } from "../productBlueprint";
 
 type OpportunityFilter = "ALL" | "READY" | "BUILD" | "FUTURE";
 
@@ -54,6 +55,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProperty, setSelectedProperty] = useState<PropertyInventoryItem>(INVENTORY_DATA[0]);
   const [showDetail, setShowDetail] = useState(false);
+  const [activeWorkstream, setActiveWorkstream] = useState("inventory");
 
   const opportunities = useMemo(
     () =>
@@ -69,6 +71,8 @@ export default function Home() {
       }),
     [opportunityFilter, searchTerm],
   );
+
+  const selectedWorkstream = PRODUCT_WORKSTREAMS.find((workstream) => workstream.id === activeWorkstream) ?? PRODUCT_WORKSTREAMS[0];
 
   const chooseOpportunity = (property: PropertyInventoryItem) => {
     setSelectedProperty(property);
@@ -358,140 +362,194 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PRODUCT FEATURES */}
+        {/* COMPLETE PRODUCT BLUEPRINT */}
         <section id="product" className="border-y border-border/70 bg-secondary/55 py-16 sm:py-20">
           <div className="container mx-auto">
-            <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
-              <div className="lg:col-span-7">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">What the BID needs to build</p>
-                <h2 className="mt-3 font-serif-title text-4xl font-semibold leading-tight">A simple product with the right tools behind it.</h2>
-                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                  The public experience should stay simple: a clear filter for food-and-beverage opportunities. Behind that filter, the BID needs a secure staff workspace that keeps information current, coordinates outreach, and shows whether the strategy is working.
+            <div className="grid gap-8 border-b border-border/70 pb-8 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-8">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">Complete product blueprint</p>
+                <h2 className="mt-3 font-serif-title text-4xl font-semibold leading-tight">Everything the BID needs to build, organized around the work.</h2>
+                <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                  The strategy calls for a complete operating platform—not just a public map. The 12 modules below make the work manageable: first understand the corridor, then recruit and retain businesses, build ownership pathways, and report clear results to the Board and funders.
                 </p>
               </div>
-              <div className="lg:col-span-5">
+              <div className="lg:col-span-4">
                 <div className="rounded-xl border border-accent/30 bg-accent/10 p-4 text-sm leading-relaxed text-foreground">
-                  <strong>Build in two layers:</strong> an approved, operator-friendly opportunity finder on the outside and a private BID operating workspace on the inside. The private workspace is where owner contacts, field notes, confidential business support, and Board disclosures live.
+                  <strong>How to read this:</strong> Start with the four workstreams. Each tab shows every feature in that part of the product, who uses it, when to build it, and how the BID will know it is working.
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[
-                {
-                  number: "01",
-                  icon: MapPin,
-                  title: "King Drive property inventory",
-                  audience: "BID staff first; approved public view later",
-                  description: "One record for every parcel, building, and storefront. Staff can see the address, size, vacancy status, photos, prior use, and when the information was last checked.",
-                  q1: "Q1 output: first verified corridor snapshot",
-                },
-                {
-                  number: "02",
-                  icon: Filter,
-                  title: "Food & beverage opportunity filter",
-                  audience: "Prospective operators, brokers, and owners",
-                  description: "A plain-language filter that separates spaces that are ready now, spaces that need kitchen investment, and future spaces that need early tenant outreach.",
-                  q1: "Q1 output: approved operator-facing opportunity finder",
-                },
-                {
-                  number: "03",
-                  icon: ClipboardCheck,
-                  title: "Mobile field survey",
-                  audience: "BID staff and student practicum teams",
-                  description: "A phone-friendly checklist for photos, vacancy, kitchen equipment, hood and ventilation, seating, storefront condition, accessibility, and visible constraints.",
-                  q1: "Q1 output: consistent way to update each property",
-                },
-                {
-                  number: "04",
-                  icon: Handshake,
-                  title: "Owner & operator follow-up tracker",
-                  audience: "BID program manager and partners",
-                  description: "A simple record of who owns each priority space, what they are willing to do, which operators need support, and the next conversation or deadline.",
-                  q1: "Q1 output: weekly priority outreach list",
-                },
-                {
-                  number: "05",
-                  icon: FileCheck2,
-                  title: "Approved deal sheets",
-                  audience: "Operators, brokers, and recruitment partners",
-                  description: "A clean one-page summary for a verified space: photos, square footage, kitchen status, permitted use, incentives, and the right BID contact. Private notes never appear here.",
-                  q1: "Q1 output: first 5–10 recruitment-ready sheets",
-                },
-                {
-                  number: "06",
-                  icon: TrendingUp,
-                  title: "Strategy scorecard",
-                  audience: "Board, funders, and BID leadership",
-                  description: "A short dashboard showing vacancy, active F&B businesses, businesses retained, spaces activated, operator graduations, and the destination-restaurant milestone.",
-                  q1: "Q1 output: agreed baseline and reporting definitions",
-                },
-              ].map((feature) => (
-                <Card key={feature.number} className="border-border/80 bg-card shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/45 hover:shadow-md">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-accent">{feature.number}</span>
-                      <feature.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <CardTitle className="mt-2 text-lg">{feature.title}</CardTitle>
-                    <CardDescription className="text-xs font-medium text-muted-foreground">For: {feature.audience}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
-                    <p>{feature.description}</p>
-                    <div className="border-t border-border/60 pt-3 text-xs font-semibold text-foreground">{feature.q1}</div>
-                  </CardContent>
-                </Card>
+            <div className="mt-7 grid gap-3 rounded-xl border border-border/80 bg-card p-4 sm:grid-cols-3">
+              <div className="flex items-start gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-primary text-xs font-bold text-primary-foreground">1</span><div><strong className="text-sm">Private BID workspace</strong><p className="mt-1 text-xs leading-relaxed text-muted-foreground">The system of record for owner contacts, field evidence, financial support cases, and Board decisions.</p></div></div>
+              <div className="flex items-start gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-accent text-xs font-bold text-accent-foreground">2</span><div><strong className="text-sm">Approved opportunity finder</strong><p className="mt-1 text-xs leading-relaxed text-muted-foreground">A simple, public or partner view for operators looking for an F&B space on King Drive.</p></div></div>
+              <div className="flex items-start gap-3"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-emerald-600 text-xs font-bold text-white">3</span><div><strong className="text-sm">Source-based reporting</strong><p className="mt-1 text-xs leading-relaxed text-muted-foreground">A clean view for the Board, funders, and partners that never exposes protected records.</p></div></div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-2 border-b border-border/70 pb-5" role="tablist" aria-label="Product blueprint workstreams">
+              {PRODUCT_WORKSTREAMS.map((workstream) => (
+                <Button
+                  key={workstream.id}
+                  role="tab"
+                  aria-selected={activeWorkstream === workstream.id}
+                  variant={activeWorkstream === workstream.id ? "default" : "outline"}
+                  onClick={() => setActiveWorkstream(workstream.id)}
+                  className={activeWorkstream === workstream.id ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:text-foreground"}
+                >
+                  {workstream.label}
+                </Button>
               ))}
             </div>
 
-            <div className="mt-8 grid gap-4 rounded-xl border border-border/80 bg-card p-5 sm:grid-cols-3 sm:p-6">
-              <div className="sm:col-span-1">
-                <h3 className="font-serif-title text-2xl font-semibold">Build later, after the basics work.</h3>
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">These additions matter, but they should not delay the first verified inventory and opportunity finder.</p>
+            <div className="mt-7">
+              <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h3 className="font-serif-title text-3xl font-semibold">{selectedWorkstream.label}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{selectedWorkstream.description}</p>
+                </div>
+                <Badge variant="secondary" className="w-fit font-mono text-[10px]">{selectedWorkstream.modules.length} modules in this workstream</Badge>
               </div>
-              <div className="sm:col-span-2 grid gap-3 text-sm sm:grid-cols-3">
-                <div className="rounded-lg bg-secondary p-3"><strong className="block text-foreground">Operator support cases</strong><span className="mt-1 block text-xs text-muted-foreground">Confidential retention plans, operations coaching, and stabilization-capital workflow.</span></div>
-                <div className="rounded-lg bg-secondary p-3"><strong className="block text-foreground">Mentor–protégé matching</strong><span className="mt-1 block text-xs text-muted-foreground">Match proven operators with emerging talent before a lease is signed.</span></div>
-                <div className="rounded-lg bg-secondary p-3"><strong className="block text-foreground">Food truck & pop-up manager</strong><span className="mt-1 block text-xs text-muted-foreground">Manage vendors, candidate sites, activation calendars, and storefront graduation.</span></div>
+
+              <div className="grid gap-5 lg:grid-cols-2">
+                {selectedWorkstream.modules.map((module) => {
+                  const ModuleIcon = module.icon;
+                  return (
+                    <Card key={module.id} className="border-border/80 bg-card shadow-sm">
+                      <CardHeader className="border-b border-border/60 pb-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-start gap-3">
+                            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">{module.id}</span>
+                            <div>
+                              <CardTitle className="text-lg leading-tight">{module.title}</CardTitle>
+                              <CardDescription className="mt-1 text-xs">{module.formalName}</CardDescription>
+                            </div>
+                          </div>
+                          <ModuleIcon className="h-5 w-5 shrink-0 text-accent" />
+                        </div>
+                        <div className="mt-3 flex flex-wrap gap-2 text-[10px] font-semibold">
+                          <span className="rounded-full bg-accent/12 px-2.5 py-1 text-accent">{module.phase}</span>
+                          <span className="rounded-full bg-secondary px-2.5 py-1 text-muted-foreground">For: {module.users}</span>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-5 pt-5">
+                        <div>
+                          <h4 className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">What it does</h4>
+                          <p className="mt-2 text-sm leading-relaxed text-foreground">{module.purpose}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">Features included</h4>
+                          <ul className="mt-2 space-y-2 text-xs leading-relaxed text-muted-foreground">
+                            {module.features.map((feature) => (
+                              <li key={feature} className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" /><span>{feature}</span></li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/8 p-3 text-xs leading-relaxed text-foreground">
+                          <strong>How we know it worked:</strong> {module.success}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
+            </div>
+
+            <div className="mt-10 rounded-2xl border border-primary/15 bg-primary p-6 text-primary-foreground sm:p-8">
+              <div className="grid gap-7 lg:grid-cols-12">
+                <div className="lg:col-span-4">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">What comes first</p>
+                  <h3 className="mt-2 font-serif-title text-3xl font-semibold leading-tight">Build the operating foundation before the advanced tools.</h3>
+                  <p className="mt-3 text-xs leading-relaxed text-white/70">This sequence makes the Q1 2027 proposal achievable. It produces something useful in the first quarter while protecting the work that belongs in later phases.</p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-3 lg:col-span-8">
+                  <div className="rounded-xl border border-white/15 bg-white/8 p-4"><span className="text-xs font-bold text-accent">BUILD NOW · Q1 2027</span><ul className="mt-3 space-y-2 text-xs leading-relaxed text-white/80">{BUILD_BOUNDARIES.buildNow.map((item) => <li key={item} className="flex gap-2"><span className="text-accent">•</span>{item}</li>)}</ul></div>
+                  <div className="rounded-xl border border-white/15 bg-white/8 p-4"><span className="text-xs font-bold text-accent">BUILD NEXT · 2027</span><ul className="mt-3 space-y-2 text-xs leading-relaxed text-white/80">{BUILD_BOUNDARIES.buildNext.map((item) => <li key={item} className="flex gap-2"><span className="text-accent">•</span>{item}</li>)}</ul></div>
+                  <div className="rounded-xl border border-white/15 bg-white/8 p-4"><span className="text-xs font-bold text-accent">BUILD LATER · 2028+</span><ul className="mt-3 space-y-2 text-xs leading-relaxed text-white/80">{BUILD_BOUNDARIES.buildLater.map((item) => <li key={item} className="flex gap-2"><span className="text-accent">•</span>{item}</li>)}</ul></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-7 grid gap-4 md:grid-cols-3">
+              <Card className="border-border/80 bg-card"><CardHeader className="pb-2"><ShieldCheck className="mb-2 h-5 w-5 text-accent" /><CardTitle className="text-base">Access controls are required</CardTitle></CardHeader><CardContent className="text-xs leading-relaxed text-muted-foreground">Owner contacts, operator financials, Board conflicts, and confidential support cases are never included in the public opportunity finder.</CardContent></Card>
+              <Card className="border-border/80 bg-card"><CardHeader className="pb-2"><FileCheck2 className="mb-2 h-5 w-5 text-accent" /><CardTitle className="text-base">Every fact needs a source</CardTitle></CardHeader><CardContent className="text-xs leading-relaxed text-muted-foreground">The product labels whether a fact was observed in the field, reported by an owner, verified through a record, or calculated as an estimate.</CardContent></Card>
+              <Card className="border-border/80 bg-card"><CardHeader className="pb-2"><Building2 className="mb-2 h-5 w-5 text-accent" /><CardTitle className="text-base">The tool does not replace the BID</CardTitle></CardHeader><CardContent className="text-xs leading-relaxed text-muted-foreground">It supports decisions. It does not automate legal, lending, grant, lease, or public-disposition decisions.</CardContent></Card>
             </div>
           </div>
         </section>
 
-        {/* DATA + USERS */}
+        {/* DATA PLATFORM DECISION */}
         <section id="data" className="border-y border-border/70 bg-card py-16 sm:py-20">
-          <div className="container mx-auto grid gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-6">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">A practical data approach</p>
-              <h2 className="mt-3 font-serif-title text-4xl font-semibold">Start with a useful snapshot. Improve it over time.</h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                CoStar can help establish the first property and market snapshot, subject to the BID’s license and permitted use. The tool does not need real-time updates on day one. It needs trustworthy information about the places the BID is actively trying to retain, recruit for, or activate.
-              </p>
-              <div className="mt-6 rounded-xl border border-border/80 bg-background p-4">
-                <div className="flex items-start gap-3">
-                  <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                  <div>
-                    <h3 className="font-semibold">Data use rule</h3>
-                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Commercial data is a research input, not a public database. The BID verifies priority records in the field and only shares property information that owners and the BID have approved for the intended audience.</p>
-                  </div>
+          <div className="container mx-auto">
+            <div className="grid gap-8 border-b border-border/70 pb-8 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-8">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">Data platform decision</p>
+                <h2 className="mt-3 font-serif-title text-4xl font-semibold leading-tight">Use the right source for the right job.</h2>
+                <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                  The BID needs a useful Q1 2027 snapshot now and a repeatable research process later. No provider replaces field work or owner confirmation. The recommended approach keeps the BID in control of the inventory while using commercial platforms for research, comparables, and market context.
+                </p>
+              </div>
+              <div className="lg:col-span-4">
+                <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm leading-relaxed text-foreground">
+                  <strong>Clear recommendation:</strong> use the BID’s licensed <strong>CoStar snapshot</strong> to establish the Q1 2027 baseline. Pilot <strong>Crexi Intelligence / All PRO</strong> as the primary ongoing internal research platform. Treat <strong>REDI CRE</strong> as an optional specialist comparison after a Milwaukee-focused demo.
                 </div>
               </div>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2 lg:col-span-6">
-              {[
-                { icon: ClipboardCheck, title: "BID staff", text: "Keep an accurate private inventory, assign follow-ups, and prepare Board decisions." },
-                { icon: Building2, title: "Owners & brokers", text: "See what information is needed to package a space for food and beverage recruitment." },
-                { icon: Utensils, title: "Prospective operators", text: "Find an approved, understandable view of spaces that fit a food business." },
-                { icon: Users, title: "Funders & partners", text: "Understand the strategy, track progress, and see where support can unlock a real outcome." },
-              ].map((user) => (
-                <Card key={user.title} className="border-border/70 bg-background/60">
-                  <CardHeader className="pb-2">
-                    <user.icon className="mb-2 h-5 w-5 text-accent" />
-                    <CardTitle className="text-base">{user.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-xs leading-relaxed text-muted-foreground">{user.text}</CardContent>
-                </Card>
-              ))}
+
+            <div className="mt-8 grid gap-5 lg:grid-cols-3">
+              <Card className="border-border/80 bg-background/70 shadow-sm">
+                <CardHeader className="border-b border-border/60 pb-4">
+                  <div className="flex items-center justify-between"><Badge variant="secondary" className="text-[10px]">Use in Q1 2027</Badge><span className="font-mono text-xs text-muted-foreground">Baseline input</span></div>
+                  <CardTitle className="mt-2 font-serif-title text-2xl">CoStar</CardTitle>
+                  <CardDescription>Best immediate source for a dated research snapshot—if the BID already has or procures the appropriate license.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4 pt-5 text-xs leading-relaxed text-muted-foreground">
+                  <ul className="space-y-2"><li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />Property records, active availabilities, ownership research, sales comps, and market analytics.</li><li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />Good for a controlled January/February inventory pull and market context.</li><li className="flex gap-2"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />Provider research remains internal unless the contract gives the BID more specific rights.</li></ul>
+                  <div className="rounded-lg bg-secondary p-3 text-foreground"><strong>Q1 job:</strong> create the first dated corridor snapshot, then verify every actionable space in the field.</div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-accent/45 bg-card shadow-md ring-1 ring-accent/25">
+                <CardHeader className="border-b border-border/60 pb-4">
+                  <div className="flex items-center justify-between"><Badge className="bg-emerald-600 text-[10px] text-white hover:bg-emerald-700">Recommended pilot</Badge><span className="font-mono text-xs text-muted-foreground">Ongoing research</span></div>
+                  <CardTitle className="mt-2 font-serif-title text-2xl">Crexi Intelligence / All PRO</CardTitle>
+                  <CardDescription>Best single published fit for the BID’s future, staff-operated research workspace.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4 pt-5 text-xs leading-relaxed text-muted-foreground">
+                  <ul className="space-y-2"><li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />Property, owner, sales and lease comp, financing, demographic, market, and mapping research in one place.</li><li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />Useful for a repeatable King Drive boundary search, saved research, and governed CSV/Excel working exports.</li><li className="flex gap-2"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />Its published Listing API sends a partner’s listings to Crexi; it is not a general data-download API.</li></ul>
+                  <div className="rounded-lg bg-emerald-500/10 p-3 text-foreground"><strong>Ongoing job:</strong> help named BID staff find opportunities, research owners and comps, and prepare verified deal sheets.</div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border/80 bg-background/70 shadow-sm">
+                <CardHeader className="border-b border-border/60 pb-4">
+                  <div className="flex items-center justify-between"><Badge variant="outline" className="text-[10px]">Test later</Badge><span className="font-mono text-xs text-muted-foreground">Specialist option</span></div>
+                  <CardTitle className="mt-2 font-serif-title text-2xl">REDI CRE</CardTitle>
+                  <CardDescription>Promising for internal, AI-guided CRE research and potentially for a separately licensed economic-development display option.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4 pt-5 text-xs leading-relaxed text-muted-foreground">
+                  <ul className="space-y-2"><li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />Publicly describes property, owners/tenants, comps, market analytics, construction data, and downloadable data sets.</li><li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />May provide an economic-development-oriented CDX viewer path, subject to separate terms.</li><li className="flex gap-2"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />Public details do not confirm a Milwaukee F&B data schema, implementation method, or redistribution rights.</li></ul>
+                  <div className="rounded-lg bg-secondary p-3 text-foreground"><strong>Later job:</strong> run the same King Drive test as Crexi and consider only if it adds meaningful local coverage or a licensed display path.</div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="mt-8 grid gap-5 lg:grid-cols-12">
+              <Card className="border-border/80 bg-background/60 lg:col-span-8">
+                <CardHeader className="border-b border-border/60 pb-4"><CardTitle className="font-serif-title text-2xl">Q1 2027 data workflow: a snapshot is enough to begin.</CardTitle><CardDescription>The product should treat commercial data as research inputs, not as the public source of truth.</CardDescription></CardHeader>
+                <CardContent className="grid gap-4 pt-5 sm:grid-cols-3">
+                  <div><span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">1</span><h3 className="mt-3 text-sm font-bold">Define the study area.</h3><p className="mt-1 text-xs leading-relaxed text-muted-foreground">Lock the King Drive boundary, food-and-beverage definitions, fields needed, and an exact “as-of” date.</p></div>
+                  <div><span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">2</span><h3 className="mt-3 text-sm font-bold">Create a research snapshot.</h3><p className="mt-1 text-xs leading-relaxed text-muted-foreground">Combine licensed CoStar data, BID assessment records, City/County sources, and current development information.</p></div>
+                  <div><span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">3</span><h3 className="mt-3 text-sm font-bold">Verify before sharing.</h3><p className="mt-1 text-xs leading-relaxed text-muted-foreground">Field-check each actionable location and confirm availability, contacts, suitability, and permission with an owner or broker.</p></div>
+                </CardContent>
+              </Card>
+              <Card className="border-accent/35 bg-accent/10 lg:col-span-4">
+                <CardHeader className="pb-3"><ShieldCheck className="mb-2 h-6 w-6 text-accent" /><CardTitle className="text-lg">The BID’s source of truth</CardTitle></CardHeader>
+                <CardContent className="text-xs leading-relaxed text-foreground">The BID-owned inventory—not a CoStar, Crexi, or REDI export—should hold the public/private flag, owner or broker permission, field verification date, current status, and approved public description. This protects the BID and keeps the product useful if a vendor license changes.</CardContent>
+              </Card>
+            </div>
+
+            <div className="mt-7 rounded-xl border border-border/80 bg-secondary/50 p-5 sm:p-6">
+              <div className="grid gap-5 lg:grid-cols-12 lg:items-center"><div className="lg:col-span-4"><h3 className="font-serif-title text-2xl font-semibold">Before signing any data agreement</h3><p className="mt-2 text-xs leading-relaxed text-muted-foreground">Ask the vendors to prove the local use case, not just national coverage.</p></div><div className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-2 lg:col-span-8"><div className="rounded-lg bg-card p-3">Demonstrate the exact King Drive boundary and the same 25–30 known addresses.</div><div className="rounded-lg bg-card p-3">Show F&B use codes, availability, ownership/agent data, lease/sales comps, and historical records.</div><div className="rounded-lg bg-card p-3">Confirm named users, contractor access, export limits, snapshot retention, and correction process in writing.</div><div className="rounded-lg bg-card p-3">Confirm what may be used internally, shared with partners, and displayed publicly; assume public distribution is not allowed unless stated.</div></div></div>
             </div>
           </div>
         </section>
